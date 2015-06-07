@@ -1,0 +1,22 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @member.name
+%p
+  %strong Name kana:
+  = @member.name_kana
+%p
+  %strong Section:
+  = @member.section
+%p
+  %strong Note:
+  = @member.note
+%p
+  %strong Email:
+  = @member.email
+%p
+  %strong Url:
+  = @member.url
+= link_to 'Edit', edit_member_path(@member)
+|
+= link_to 'Back', members_path

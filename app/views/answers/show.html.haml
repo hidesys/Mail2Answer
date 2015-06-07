@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %strong Url:
+  = @answer.url
+%p
+  %strong Reply:
+  = @answer.reply
+%p
+  %strong Member:
+  = @answer.member
+%p
+  %strong Questionnaire:
+  = @answer.questionnaire
+= link_to 'Edit', edit_answer_path(@answer)
+|
+= link_to 'Back', answers_path

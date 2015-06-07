@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Subject:
+  = @questionnaire.subject
+%p
+  %strong Content:
+  = @questionnaire.content
+= link_to 'Edit', edit_questionnaire_path(@questionnaire)
+|
+= link_to 'Back', questionnaires_path
