@@ -1,16 +1,13 @@
-%p#notice= notice
-%p
-  %strong Url:
-  = @answer.url
-%p
-  %strong Reply:
-  = @answer.reply
-%p
-  %strong Member:
-  = @answer.member
-%p
-  %strong Questionnaire:
-  = @answer.questionnaire
-= link_to 'Edit', edit_answer_path(@answer)
-|
-= link_to 'Back', answers_path
+%strong
+  = @answer.question
+- if @answer.is_bool?
+  = form_for(@answer)
+    = f.hidden_field :reply, "True"
+    = f.submit "はい (Yes)"
+  = form_for(@answer)
+    = f.hidden_field :reply, "False"
+    = f.submit "いいえ (No)"
+- else
+  = form_for(@answer)
+    = f.text_field :reply
+    = f.submit "送信 (Submit)"

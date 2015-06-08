@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607172155) do
+ActiveRecord::Schema.define(version: 20150608120317) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "url"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20150607172155) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "question_type"
+    t.string   "question"
   end
 
   add_index "answers", ["member_id"], name: "index_answers_on_member_id"
