@@ -4,7 +4,7 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.all
+    @members = Member.order("note DESC")
   end
 
   # GET /members/1
@@ -25,6 +25,7 @@ class MembersController < ApplicationController
   # POST /members.json
   def create
     @member = Member.new(member_params)
+    @member.url = get_hex
 
     respond_to do |format|
       if @member.save
@@ -35,6 +36,23 @@ class MembersController < ApplicationController
         format.json { render json: @member.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def creates
+    Member.transaction do
+      member_creates_params[:lines].split(/[\r\n]+/).each do |line|
+        line_params = line.split(/\t/)
+        Member.new({
+          name: line_params[0],
+          name_kana: line_params[1],
+          section: line_params[2],
+          note: line_params[3],
+          email: line_params[4],
+          url: get_hex
+        }).save
+      end
+    end
+    redirect_to members_path
   end
 
   # PATCH/PUT /members/1
@@ -70,5 +88,14 @@ class MembersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
       params.require(:member).permit(:name, :name_kana, :section, :note, :email, :url)
+    end
+
+    def member_creates_params
+      params.permit(:lines)
+    end
+
+    def get_hex
+      while Member.find_by(url: (hex = SecureRandom.hex)) do end
+      hex
     end
 end

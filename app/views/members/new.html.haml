@@ -1,3 +1,10 @@
 %h1 New Member
+%h2 By Person
 = render 'form'
+%hr
+%h2 By TSV
+Put them as "Name\tName(kana)\tSection\tNote\temail\n"
+= form_tag members_creates_path do
+  = text_area_tag :lines
+  = submit_tag "送信"
 = link_to 'Back', members_path

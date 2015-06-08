@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  resources :answers
-  resources :questionnaires
-  resources :members
+  scope :admin do
+    resources :answers, except: [:show, :destroy, :edit, :update, :create]
+    resources :questionnaires, except: [:destroy, :update, :edit]
+    resources :members, except: [:show]
+    post "members/creates" => "members#creates"
+  end
+  resources :answers, only: [:show] 
+  resources :members, only: [:show]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

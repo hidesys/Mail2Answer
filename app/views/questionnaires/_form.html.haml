@@ -8,12 +8,16 @@
         - @questionnaire.errors.full_messages.each do |message|
           %li= message
   .field
+    = f.label "Members"
+    %br/
+    = 
+  .field
     = f.label :subject
     %br/
     = f.text_field :subject
   .field
     = f.label :content
     %br/
-    = f.text_field :content
+    = f.text_area :content
   .actions
     = f.submit
