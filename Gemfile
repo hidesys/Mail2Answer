@@ -49,7 +49,7 @@ group :development, :test do
   gem 'pry-stack_explorer' # スタックをたどれる
 end
 
-group :production
+group :production do
   gem 'pg'
 end
 
