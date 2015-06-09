@@ -36,6 +36,7 @@ class QuestionnairesController < ApplicationController
             answer_url(answer.url)
           end
           content = content.gsub(/\#\{name\}/, member.name)
+          content = content.gsub(/\#\{email\}/, member.email)
           QuestionnaireMailer.question(member, @questionnaire.subject, content).deliver_later
         end
         format.html { redirect_to @questionnaire, notice: 'Questionnaire was successfully created.' }
