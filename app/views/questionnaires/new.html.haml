@@ -1,3 +1,13 @@
 %h1 New Questionnaire
-= render 'form'
+= form_for(@questionnaire) do |f|
+  %p
+    = f.label "subject"
+    = f.text_field :subject
+  %p
+    = f.label "content"
+    = f.text_area :content
+  %p
+    = f.label "送信先（複数）"
+    = f.collection_select(:member_ids, Member.order("note DESC"), :id, :view_for_select, {}, {multiple: true, name: "member_ids[]", size: 20})
+  = f.submit "送信"
 = link_to 'Back', questionnaires_path

@@ -1,13 +1,16 @@
-%strong
-  = @answer.question
+%p
+  質問(Question):
+  %strong
+    = @answer.question
 - if @answer.is_bool?
-  = form_for(@answer)
-    = f.hidden_field :reply, "True"
+  = form_for(@answer) do |f|
+    = f.hidden_field :reply, value: "True"
     = f.submit "はい (Yes)"
-  = form_for(@answer)
-    = f.hidden_field :reply, "False"
+  = form_for(@answer) do |f|
+    = f.hidden_field :reply, value: "False"
     = f.submit "いいえ (No)"
 - else
-  = form_for(@answer)
+  = form_for(@answer, url: answer_path(@answer)) do |f|
     = f.text_field :reply
     = f.submit "送信 (Submit)"
+

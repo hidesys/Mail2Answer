@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   scope :admin do
-    resources :questionnaires, except: [:index, :create, :show]
+    resources :questionnaires, only: [:index, :create, :show, :new]
     resources :members, except: [:show], param: :url
     post "members/creates" => "members#creates"
   end

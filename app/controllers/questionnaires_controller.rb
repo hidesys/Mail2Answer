@@ -17,47 +17,31 @@ class QuestionnairesController < ApplicationController
     @questionnaire = Questionnaire.new
   end
 
-  # GET /questionnaires/1/edit
-  def edit
-  end
-
   # POST /questionnaires
   # POST /questionnaires.json
   def create
-    @questionnaire = Questionnaire.new(questionnaire_params)
+    @questionnaire = Questionnaire.new(questionnaire_params[:questionnaire])
 
     respond_to do |format|
       if @questionnaire.save
+        questionnaire_params[:member_ids].each do |member_id|
+          next if member_id == ""
+          member = Member.find(member_id)
+          content = @questionnaire.content.gsub(/\#\{question\((.*?),(.*?)\)\}/) do
+            answer = Answer.new(question: $1, question_type: $2)
+            answer.url = Answer.get_hex
+            answer.member_id = member.id
+            answer.questionnaire_id = @questionnaire.id
+            answer.save!
+            answer_url(answer.url)
+          end
+          content = content.gsub(/\#\{name\}/, member.name)
+          QuestionnaireMailer.question(member, @questionnaire.subject, content).deliver_later
+        end
         format.html { redirect_to @questionnaire, notice: 'Questionnaire was successfully created.' }
-        format.json { render :show, status: :created, location: @questionnaire }
       else
         format.html { render :new }
-        format.json { render json: @questionnaire.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /questionnaires/1
-  # PATCH/PUT /questionnaires/1.json
-  def update
-    respond_to do |format|
-      if @questionnaire.update(questionnaire_params)
-        format.html { redirect_to @questionnaire, notice: 'Questionnaire was successfully updated.' }
-        format.json { render :show, status: :ok, location: @questionnaire }
-      else
-        format.html { render :edit }
-        format.json { render json: @questionnaire.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /questionnaires/1
-  # DELETE /questionnaires/1.json
-  def destroy
-    @questionnaire.destroy
-    respond_to do |format|
-      format.html { redirect_to questionnaires_url, notice: 'Questionnaire was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -69,6 +53,7 @@ class QuestionnairesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def questionnaire_params
-      params.require(:questionnaire).permit(:subject, :content)
+      params.permit(member_ids: [], questionnaire: [:subject, :content])
     end
 end
+

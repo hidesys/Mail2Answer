@@ -5,14 +5,13 @@
     %tr
       %th Subject
       %th Content
-      %th{:colspan => "3"}
+      %th{:colspan => "2"}
   %tbody
     - @questionnaires.each do |questionnaire|
       %tr
         %td= questionnaire.subject
         %td= questionnaire.content
         %td= link_to 'Show', questionnaire
-        %td= link_to 'Edit', edit_questionnaire_path(questionnaire)
         %td= link_to 'Destroy', questionnaire, method: :delete, data: { confirm: 'Are you sure?' }
 %br/
 = link_to 'New Questionnaire', new_questionnaire_path

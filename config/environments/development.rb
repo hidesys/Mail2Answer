@@ -38,4 +38,16 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.action_mailer.default_url_options = { host: "noukei-inkai-meibo.herokuapp.com" }
+  config.action_controller.default_url_options = { host: "noukei-inkai-meibo.herokuapp.com" }
+  config.action_mailer.smtp_settings = {
+    address: "smtp.live.com",
+    port: 587,
+    domain:  "noukei-inkai-meibo.herokuapp.com",
+    user_name: "noukei-inkai@hotmail.co.jp",
+    password: "koredeiinkai",
+    authentication: :login,
+    enable_starttls_auto: true
+  }
 end

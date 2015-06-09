@@ -6,4 +6,9 @@ class Answer < ActiveRecord::Base
   def is_bool?
     question_type == "Bool"
   end
+
+  def self.get_hex
+      while self.find_by(url: (hex = SecureRandom.hex)) do end
+      hex
+  end
 end

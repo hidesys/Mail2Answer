@@ -5,6 +5,10 @@
 %p
   %strong Content:
   = @questionnaire.content
-= link_to 'Edit', edit_questionnaire_path(@questionnaire)
-|
+%p
+  - @questionnaire.answers.each do |answer|
+    = answer.member.name
+    = answer.question_type
+    = answer.question
+    = answer.reply
 = link_to 'Back', questionnaires_path
