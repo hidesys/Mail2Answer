@@ -17,6 +17,10 @@ class AnswersController < ApplicationController
     end
   end
 
+  def home
+    render plain: "#{APPNAME} へようこそ！"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_answer
